@@ -1,49 +1,112 @@
-# TPGammaL3 pour simulations du TP de L3 sur le rayonnement gamma.
-[huber@lp2ib.in2p3.fr, huberarnaud@gmail.com]
+TPGammaL3_App
+=============
 
-## INSTRUCTIONS TO USE THE SIMULATION
-- Download the VMWare [Geant4.11.2.1](https://heberge.lp2ib.in2p3.fr/G4VM/index.html)
+TPGammaL3_App est une application scientifique pour la simulation et l’analyse de données, développée dans le cadre d’un projet L3.
+Elle utilise Python 3, PySide6 pour l’interface graphique et les bibliothèques scientifiques NumPy, SciPy, Matplotlib et Pandas.
 
-```
-git clone https://github.com/ahuber33/TPGammaL3
-```
+Prérequis
+---------
 
-- Go to build Folder and use this command :
-```
-cmake -DGeant4_DIR=$G4COMP ../
-make -j4
-```  
-then compile it with make
+Linux natif :
+- Python 3.12
+- Bibliothèques système Qt/XCB :
+  sudo apt update
+  sudo apt install -y libx11-xcb1 libxcb1 libxcb-xinerama0 libxcb-cursor0 \
+    libxrender1 libxext6 libxfixes3 libxcomposite1 libxi6 libxrandr2 libglib2.0-0
 
-- The executable TPGammaL3Sim will be add to your bin folder
+WSL 2 (Windows 11/10) :
+- VSCode avec extension Remote - WSL et WSLg recommandé
+- Si WSL sans WSLg : serveur X externe (VcXsrv) nécessaire
 
-- If you want to have a visualization, launch this command : 
-```
-./TPGammaL3Sim [name of ROOT file ]"
-```  
-It will generate 1 particle according to the vis.mac with QT and you will have a ROOT file with the name you gave in response located in the Resultats folder.
+Windows :
+- Conda ou venv avec Python 3.12
+- PySide6 et dépendances scientifiques installées
 
-- If you want to have statistics without the visualization, use this command :
-```
-./TPGammaL3Sim [name of ROOT file] [number of events generated] [name of macro] [MultiThreading ON/OFF] [number of threads]
-```  
-According to the number of threads used if MT is ON, the simulation will create a ROOT file for each thread and at the end of the simulation, all ROOT files will be merged together with a name correspoding to the name given in [name of ROOT file]. The temporaries ROOT files will be removed after the merge.
+Installation
+------------
 
-Note that it's not necessary to indicate a [number of threads] if the condition on MT is OFF. In opposite, you need to put a value if MT is ON.
+### Linux / WSL
 
-Personnaly, I used the vrml.mac but you can create another one. Just to remember that you need to write the name of your macro when you launch the simulation.
+1. Ouvrir un terminal dans le dossier contenant `install_tpgamma.sh`
+2. Lancer le script :
+   ./install_tpgamma.sh
+3. Suivre les instructions pour choisir le dossier d’installation et créer un raccourci bureau.
 
+Le script effectue automatiquement :
+- Installation des bibliothèques système Qt/XCB
+- Création d’un virtualenv Python
+- Installation des dépendances Python : PySide6, numpy, scipy, matplotlib, pandas
+- Création du script de lancement `run_tpgamma.sh` avec détection de WSL et configuration Qt
 
-- An TPGammaL3Sim.cfg file is located in bin directory. All the dimensions necessary are in this file to avoid recompilation when you want to change some parameters. If you add some other dimensions, don't forget to add the variables in Geometry.cc.
-```
-#----------Common variables----------
-Radius_NaI 25.4 mm
-Thickness_NaI 50.8 mm
-Thickness_Housing 0.508 mm
-```
+### Windows
 
-- Some materials are already defined in the simulation. If you need a new one, you must declare it in the TPGammaL3SimGeometry.cc and precisely on the con construction part of interest. If the material is already in the NIST Database, you can copy the declaration and modifiy the declaration to create a new material. If not, it is advice to declare it in the TPGammaL3SimMaterials.cc in order to clarify the code. After that, DO NOT FORGET to add the declaration of your new material in the ConstructMaterialsList() function in TPGammaL3SimGeometry.cc file. It is NECESSARY if you want to have the conversion of your material name given in the configuration file and the link with the G4Material associated.
+1. Installer Anaconda / Miniconda si nécessaire
+2. Créer un environnement Conda dédié :
+   conda create -n tpgamma python=3.12 pyside6=6.9 numpy scipy matplotlib pandas
+   conda activate tpgamma
+3. Copier le dossier de l’application où souhaité
+4. Lancer l’application via :
+   python app\main.py
 
-- Based on G4EmStandardPhysics_option3.
+Lancement de l’application
+-------------------------
 
-- DO NOT HESITATE TO REPORT BUGS OR ANY IDEAS THAT WILL IMPROVE THE SIMULATION !!!!
+Linux / WSL :
+./run_tpgamma.sh
+- Active automatiquement le virtualenv
+- Configure les bibliothèques Qt pour PySide6
+- Pour WSL avec WSLg : pas besoin de serveur X externe
+- Pour WSL sans WSLg : lancer un serveur X (VcXsrv) avant de lancer le script
+
+Windows :
+- Depuis un terminal Conda activé :
+  python app\main.py
+
+Raccourcis
+----------
+
+- L’installateur peut créer un raccourci bureau Linux/WSL (.desktop)
+- Pour Windows, lancement via terminal Conda ou script `.bat`
+
+Désinstallation
+---------------
+
+Supprimer l’application et le virtualenv associé :
+rm -rf /chemin/vers/TPGammaL3_App
+
+Support & dépannage
+------------------
+
+- WSL + VSCode + WSLg : lancer directement `./run_tpgamma.sh` depuis le terminal VSCode
+- WSL sans WSLg : installer et lancer un serveur X externe (VcXsrv)
+- Linux natif : vérifier que les bibliothèques Qt/XCB sont installées
+- Si un module Python est manquant :
+  source /chemin/vers/venv/bin/activate
+  pip install <module>
+
+Fonctionnalités principales
+--------------------------
+
+- Interface graphique interactive avec PySide6
+- Exploration et manipulation de données scientifiques
+- Visualisation avec Matplotlib
+- Calculs numériques et statistiques avec NumPy et SciPy
+- Gestion de fichiers et résultats scientifiques via le dossier `Resultats`
+
+Notes spécifiques WSL + VSCode
+-------------------------------
+
+- Préférez WSL 2 avec WSLg pour éviter tout problème de serveur X
+- Si WSLg n’est pas disponible, le script d’installation vous demandera de lancer VcXsrv
+- Le script détecte automatiquement la présence de WSL et configure `DISPLAY` pour Qt
+
+Licence
+-------
+
+-
+
+Auteur
+------
+
+Arnaud HUBER
+TPGammaL3_App – Projet L3

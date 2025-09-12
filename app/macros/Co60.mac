@@ -1,0 +1,35 @@
+/tracking/verbose 0
+/run/verbose 1
+/run/setStatusIncidentGammaInformation false
+/run/setStatusIncidentSourceInformation true
+
+/run/initialize
+/process/had/rdm/thresholdForVeryLongDecayTime 1.0e+60 year
+
+/geometry/setRadiusNaI 25.4 mm
+/geometry/setThicknessNaI 50.8 mm
+/geometry/setThicknessHousing 0.508 mm
+/geometry/setThicknessAbsorber 10 mm
+/geometry/setThicknessDesk 5 cm
+/geometry/setThicknessSourceHolder 0.2 mm
+/geometry/setDeskSourceDistance 10 cm
+/geometry/setSourceNaIDistance 10 cm
+/geometry/setAbsorberMaterial G4_Pb
+
+/run/reinitializeGeometry     
+
+
+######################################################
+### PART TO SIMULATE PARTICLE WITH GPS (no setgun) ###
+######################################################
+/gps/number 1
+
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre 0.0 0.0 0.0 mm
+/gps/pos/radius 1.5 mm
+/gps/energy 0 keV
+
+/gps/particle ion
+/gps/ion 27 60 0 0  
+#/grdm/nucleusLimits 60 60 27 27

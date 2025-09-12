@@ -1,0 +1,39 @@
+/tracking/verbose 0
+/run/verbose 1
+/run/printProgress 1000000
+
+
+/run/initialize
+
+
+
+
+######################################################
+### PART TO SIMULATE PARTICLE WITH GPS (no setgun) ###
+######################################################
+/gps/number 1
+/gps/particle gamma
+
+#/gps/pos/type Point
+#/gps/pos/centre 0.0 0.0 -300.0 mm
+#/gps/ang/type cos
+#/gps/ang/rot1 -1 0 0
+#/gps/ang/maxtheta 0.09 rad
+
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre 0.0 0.0 -300 mm
+/gps/direction 0.0 0.0 1.0
+/gps/pos/radius 25 mm
+#/gps/energy %energy keV
+
+/gps/ene/type Exp
+/gps/ene/min 100 eV
+/gps/ene/max 10. MeV
+/gps/ene/ezero %energy MeV
+
+#/gps/ene/type Lin
+#/gps/ene/min %energy1 MeV
+#/gps/ene/max %energy2 MeV
+#/gps/ene/gradient 0
+#/gps/ene/intercept 1

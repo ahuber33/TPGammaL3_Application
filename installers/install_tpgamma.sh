@@ -45,7 +45,8 @@ python3 -m venv "$INSTALL_DIR/venv"
 # Installation des dépendances Python
 source "$INSTALL_DIR/venv/bin/activate"
 pip install --upgrade pip
-pip install PySide6 numpy scipy matplotlib pandas uproot
+# Installer des versions spécifiques compatibles avec la machine
+pip install PySide6==6.6.2 "numpy<2" scipy matplotlib pandas uproot
 deactivate
 echo "Environnement virtuel prêt avec PySide6 et numpy."
 
